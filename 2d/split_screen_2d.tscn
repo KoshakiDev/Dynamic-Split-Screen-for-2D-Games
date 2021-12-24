@@ -1,0 +1,117 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://2d/player_2d.gd" type="Script" id=1]
+[ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://2d/camera_controller.gd" type="Script" id=3]
+[ext_resource path="res://2d/split_screen_2d.gdshader" type="Shader" id=4]
+
+[sub_resource type="CapsuleShape2D" id=1]
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = ExtResource( 4 )
+shader_param/viewport_size = null
+shader_param/split_active = null
+shader_param/player1_position = null
+shader_param/player2_position = null
+shader_param/split_line_thickness = null
+shader_param/split_line_color = null
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Cameras" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 1024.0
+margin_bottom = 600.0
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+max_separation = 250.0
+
+[node name="ViewportContainer" type="ViewportContainer" parent="Cameras"]
+margin_right = 1024.0
+margin_bottom = 600.0
+size_flags_horizontal = 3
+stretch = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Viewport1" type="Viewport" parent="Cameras/ViewportContainer"]
+size = Vector2( 1024, 600 )
+handle_input_locally = false
+disable_3d = true
+usage = 0
+render_target_update_mode = 3
+
+[node name="Camera2D" type="Camera2D" parent="Cameras/ViewportContainer/Viewport1"]
+current = true
+
+[node name="Player1" type="KinematicBody2D" parent="Cameras/ViewportContainer/Viewport1"]
+position = Vector2( 918, 393 )
+script = ExtResource( 1 )
+walk_speed = 400.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Cameras/ViewportContainer/Viewport1/Player1"]
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="Cameras/ViewportContainer/Viewport1/Player1"]
+modulate = Color( 0.654902, 0, 0, 1 )
+texture = ExtResource( 2 )
+
+[node name="Player2" type="KinematicBody2D" parent="Cameras/ViewportContainer/Viewport1"]
+position = Vector2( 918, 493 )
+script = ExtResource( 1 )
+player_id = 2
+walk_speed = 400.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Cameras/ViewportContainer/Viewport1/Player2"]
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="Cameras/ViewportContainer/Viewport1/Player2"]
+modulate = Color( 0.219608, 0, 0.654902, 1 )
+texture = ExtResource( 2 )
+
+[node name="Wall1" type="Sprite" parent="Cameras/ViewportContainer/Viewport1"]
+position = Vector2( 438, 281 )
+scale = Vector2( 0.765624, 5.125 )
+texture = ExtResource( 2 )
+
+[node name="Wall2" type="Sprite" parent="Cameras/ViewportContainer/Viewport1"]
+position = Vector2( 904, 68 )
+scale = Vector2( 0.765624, 5.125 )
+texture = ExtResource( 2 )
+
+[node name="Wall3" type="Sprite" parent="Cameras/ViewportContainer/Viewport1"]
+position = Vector2( 132, 456 )
+scale = Vector2( 0.765624, 5.125 )
+texture = ExtResource( 2 )
+
+[node name="ViewportContainer2" type="ViewportContainer" parent="Cameras"]
+margin_right = 1024.0
+margin_bottom = 600.0
+
+[node name="Viewport2" type="Viewport" parent="Cameras/ViewportContainer2"]
+size = Vector2( 1024, 600 )
+own_world = true
+handle_input_locally = false
+disable_3d = true
+usage = 1
+render_target_update_mode = 3
+
+[node name="Camera2D" type="Camera2D" parent="Cameras/ViewportContainer2/Viewport2"]
+current = true
+
+[node name="View" type="TextureRect" parent="Cameras"]
+material = SubResource( 2 )
+margin_right = 1024.0
+margin_bottom = 600.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource( 2 )
+expand = true
+flip_v = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
